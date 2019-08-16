@@ -1,7 +1,6 @@
 package com.daoxuanson.security;
 
 import com.daoxuanson.constant.Constant;
-import com.daoxuanson.utils.SecurityUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -12,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Component
@@ -33,9 +33,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         if (isUser(grantedAuthorities)) {
             url = Constant.WEB;
-        }
-
-        if (isAdmin(grantedAuthorities)) {
+        } else if (isAdmin(grantedAuthorities)) {
             url = Constant.ADMIN_HOME;
         }
 
@@ -43,11 +41,15 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
     private boolean isUser(Set<GrantedAuthority> grantedAuthorities) {
-        return grantedAuthorities.stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_USER"));
+        Predicate<GrantedAuthority> compare = s -> s.getAuthority().equals("ROLE_USER");
+//        compare.and(s->s.getAuthority().equals("ROLE_EDITOR"));
+//        compare.or(s->s.getAuthority().equals("ROLE_ADMIN"));
+        return grantedAuthorities.stream().anyMatch(compare::test);
     }
 
     private boolean isAdmin(Set<GrantedAuthority> grantedAuthorities) {
-        return grantedAuthorities.stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+        Predicate<GrantedAuthority> compare = s -> s.getAuthority().equals("ROLE_ADMIN");
+        return grantedAuthorities.stream().anyMatch(compare::test);
     }
 
     @Override

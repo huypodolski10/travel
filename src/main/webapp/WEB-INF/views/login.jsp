@@ -33,12 +33,8 @@
                                 </a>
                             </div>
                             <h4 class="text-center m-t-15">Log into Your Account</h4>
-                            <form class="m-t-30 m-b-30" action="/home" id="loginFrom" method="POST" modelAtrribute="register">
-                                <c:if test="${not empty message}">
-                                    <div class="alert alert-${alert}">
-                                            ${message}
-                                    </div>
-                                </c:if>
+                            <%--@elvariable id="register" type="com.daoxuanson.model.request.Register"--%>
+                            <form:form class="m-t-30 m-b-30" action="/j_spring_security_check" id="loginFrom" method="POST" modelAttribute="register">
                                 <div class="form-group">
                                     <label>Username</label>
                                     <input type="text" class="form-control" id="username" name="username"
@@ -62,7 +58,7 @@
                                 <div class="text-center m-b-15 m-t-15">
                                     <button type="submit" class="btn btn-primary">Sign in</button>
                                 </div>
-                            </form>
+                            </form:form>
                             <div class="text-center">
                                 <h5 class="m-b-30">Or Login with</h5>
                                 <ul class="list-inline">
