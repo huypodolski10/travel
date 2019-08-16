@@ -1,9 +1,11 @@
 package com.daoxuanson.model.request;
 
+import java.util.List;
+
 public class UserRequest {
     private String userName;
     private String password;
-    private String fullName;
+    private List<Long> ids;
 
     public String getUserName() {
         return userName;
@@ -21,11 +23,11 @@ public class UserRequest {
         this.password = password;
     }
 
-    public String getFullName() {
-        return fullName;
+    public List<Long> getIds() {
+        return ids;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setIds(List<Long> ids) {
+        this.ids = ids;
     }
 }

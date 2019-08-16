@@ -3,12 +3,16 @@ package com.daoxuanson.controller;
 import com.daoxuanson.entity.Role;
 import com.daoxuanson.entity.User;
 import com.daoxuanson.model.request.Register;
+import com.daoxuanson.model.request.UserRequest;
 import com.daoxuanson.service.RoleService;
 import com.daoxuanson.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -54,6 +58,31 @@ public class HomeController {
     @GetMapping("/login")
     public ModelAndView login() {
         return new ModelAndView("login");
+    }
+
+    @GetMapping("/admin/home/table")
+    public ModelAndView table(){
+        ModelAndView mav = new ModelAndView("showUsers");
+
+        List<User> models = userService.findAll();
+        mav.addObject("models", models);
+
+        return mav;
+    }
+
+    @GetMapping("/admin/home/insert")
+    public ModelAndView insert(@RequestParam(name = "username") String username, @RequestParam(name = "password") String password){
+        ModelAndView mav = new ModelAndView("insert");
+
+        UserRequest userRequest = new UserRequest();
+        userRequest.setUserName(username);
+        userRequest.setPassword(password);
+        List<Long> ids = new ArrayList<>();
+        ids.add(2L);
+        userRequest.setIds(ids);
+
+        userService.insert(userRequest);
+        return mav;
     }
 
 //    @GetMapping("/logout")

@@ -18,11 +18,5 @@
 <%--        <br>--%>
 <%--    </a>--%>
 <%--</c:forEach>--%>
-
-<form action="/admin/home" method="POST">
-    <input placeholder="Tên đăng nhập" name="userName">
-    <input placeholder="Mật khẩu" name="password">
-    <button type="submit">Nhấn vào đây</button>
-</form>
 </body>
 </html>
